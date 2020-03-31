@@ -2,35 +2,40 @@ $(function () {
   $('#addWork').click(addWorkForm);
 });
 
+/**
+  * Ajoute un formulaire d'un travail d'un studio à la suite du/des autre(s)
+  */
 function addWorkForm () {
-  console.log('clicked !');
-  let workForm = getEmptyWorkForm();
+  let workForm = getNewWorkForm();
   $('.work').last().after(workForm);
 }
 
 /**
   * Récupère le dernier champ de formulaire 'WORK' réinitialise tous ses champs.
+  * @return Un nouveau formulaire vièrge de présentation d'un travail du studio
   */
-function getEmptyWorkForm () {
+function getNewWorkForm () {
   let workForm = $('.work').last().clone();
+  let workInputs = workForm.find('input');
 
-  workForm[0].querySelector('textarea').value = null;
+  workInputs.each(function (index, element) {
+    if(element.type === 'text') element.value = null;
+    else if (element.type === 'file') element.value = null;
+    else if (element.type === 'checkbox') element.checked = false;
+  });
 
-  let workInputs = workForm[0].querySelectorAll('input');
+  //selectionne le textarea à l'interieur de .work et le set à null
+  workForm.find('textarea').val(null);
 
-  for(let i = 0; i < workInputs.length; i++) {
-    if(workInputs[i].type === 'text') {
-      workInputs[i].value = null;
-    }
-
-    else if (workInputs[i].type === 'file') {
-      workInputs[i].value = null;
-    }
-
-    else if (workInputs[i].type === 'checkbox') {
-      workInputs[i].checked = false;
-    }
-  }
+  setDeleteButton(workForm);
 
   return workForm;
+}
+
+function setDeleteButton(workForm) {
+    let deleteWork = workForm.find('.deleteWorkBtn');
+    deleteWork.css({display: 'block'});
+    deleteWork.click(function() {
+      workForm.remove();
+    });
 }

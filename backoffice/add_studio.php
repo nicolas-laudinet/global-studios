@@ -91,6 +91,11 @@
         <h2>Add a Work</h2>
 
         <div class="work">
+
+          <button style="display:none" type="button" class="deleteWorkBtn close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
           <div class="row">
 
             <div class="form-group col-md-6">
