@@ -1,3 +1,22 @@
+<?php
+
+//contient la variable $db
+include('db_connection.php');
+
+//contient sortWorksData() et $addStudioToDb
+include('db_functions.php');
+
+
+if(isset($_POST) && !empty($_POST) && isset($_FILES) && !empty($_FILES)) {
+  addStudioToDb($_POST, $db);
+
+  $mergedArrays = array_merge($_POST, $_FILES);
+  $works = sortWorksData($mergedArrays);
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,26 +26,23 @@
     <link rel="stylesheet" href="backoffice.css">
     <meta name=viewport content="width=device-width, initial-scale=1">
     <script defer type="text/javascript" src="../lib/jquery-3.4.1.min.js"></script>
-    <script defer type="text/javascript" src="backoffice.js">
-
-    </script>
+    <script defer type="text/javascript" src="handle_work_forms.js"></script>
+    <!-- <script defer type="text/javascript" src="send_form_data.js"></script> -->
   </head>
 
   <body>
 
-    <header>
-      <h1>HEADER</h1>
-    </header>
-
-
-
     <div class="container">
+
+      <header>
+        <h1>HEADER</h1>
+      </header>
 
       <!-- INFOS ABOUT THE STUDIO ------------------------------------------------------>
       <hr>
       <h2>Add a studio</h2>
 
-      <form method="post">
+      <form method="POST" enctype="multipart/form-data">
 
         <div class="row">
 
@@ -66,11 +82,8 @@
           <div class="form-group col-md-6">
             <label for="country">Country</label>
             <select name="country" class="form-control" id="country">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              <option value="1">Italy</option>
+              <option value="2">Spain</option>
             </select>
           </div>
 
@@ -79,7 +92,7 @@
         <div class="row">
           <div class="form-group col-md-12">
             <label for="description">Studio Description</label>
-            <textarea class="form-control" id="description" rows="6"></textarea>
+            <textarea name="description" class="form-control" id="description" rows="6"></textarea>
           </div>
         </div><!-- .row -->
 
@@ -99,13 +112,13 @@
           <div class="row">
 
             <div class="form-group col-md-6">
-              <label for="workName">Work Name</label>
-              <input name="workName" type="text" class="form-control" id="workName">
+              <label for="workName-0">Work Name</label>
+              <input name="workName-0" type="text" class="form-control" id="workName-0">
             </div>
 
             <div class="form-group col-md-6">
-              <label for="altText">Image Alt Text</label>
-              <input name="altText" type="text" class="form-control" id="altText">
+              <label for="altText-0">Image Alt Text</label>
+              <input name="altText-0" type="text" class="form-control" id="altText-0">
             </div>
 
           </div><!-- .row -->
@@ -113,22 +126,22 @@
           <div class="row">
 
             <div class="form-group col-md-6">
-              <label for="image">Select the project image</label>
-              <input name="image" type="file" class="form-control-file" id="image">
+              <label for="image-0">Select the project image</label>
+              <input name="image-0" type="file" class="form-control-file" id="image-0">
             </div>
 
-            <div class="form-check col-md-6">
-              <label class="form-check-label" for="thumbnail">Select as the studio thumbnail image :</label>
+            <div class="form-radio col-md-6">
+              <label class="form-radio-label" for="thumbnail-0">Select as the studio thumbnail image :</label>
               <br>
-              <input name="thumbnail" type="checkbox" class="" id="thumbnail">
+              <input name="thumbnail-0" type="radio" value="true" id="thumbnail-0">
             </div>
 
           </div><!-- .row -->
 
           <div class="row">
             <div class="form-group col-md-12">
-              <label for="imageDescr">Work Description</label>
-              <textarea class="form-control" id="imageDescr" rows="6"></textarea>
+              <label for="imageDescr-0">Work Description</label>
+              <textarea class="form-control" name="imageDescr-0" id="imageDescr-0" rows="6"></textarea>
             </div>
           </div><!-- .row -->
 
@@ -138,7 +151,11 @@
           <button id="addWork" type="button" class="btn btn-secondary" name="addWork">Add Another Work</button>
         </div>
 
-        <input type="hidden" name="worksNumber">
+        <input id="worksCount" type="hidden" name="worksCount" value="1">
+
+        <div class="row">
+          <input type="submit" value="Ajouter le studio" class="btn btn-primary btn-lg mx-auto">
+        </div>
 
       </form>
 
