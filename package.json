@@ -1,0 +1,27 @@
+{
+  "name": "global-studios",
+  "version": "1.0.0",
+  "description": "A blog showcasing graphic design studios from around the world",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolas-laudinet/global-studios.git"
+  },
+  "keywords": [
+    "vue.js",
+    "php",
+    "graphicdesign"
+  ],
+  "author": "Nicolas Laudinet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolas-laudinet/global-studios/issues"
+  },
+  "homepage": "https://github.com/nicolas-laudinet/global-studios#readme"
+}
