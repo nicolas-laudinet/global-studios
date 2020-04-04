@@ -1,17 +1,23 @@
 <?php
 
 //contient la variable $db
-include('db_connection.php');
+include('../db_connection.php');
 
 //contient sortWorksData() et $addStudioToDb
 include('db_functions.php');
 
 
 if(isset($_POST) && !empty($_POST) && isset($_FILES) && !empty($_FILES)) {
-  addStudioToDb($_POST, $db);
+
+  $studioId = recordStudio($_POST, $db);
 
   $mergedArrays = array_merge($_POST, $_FILES);
+
   $works = sortWorksData($mergedArrays);
+
+  foreach($works as $work) {
+    recordWork($work, $studioId, $db);
+  }
 }
 
 
@@ -84,6 +90,8 @@ if(isset($_POST) && !empty($_POST) && isset($_FILES) && !empty($_FILES)) {
             <select name="country" class="form-control" id="country">
               <option value="1">Italy</option>
               <option value="2">Spain</option>
+              <option value="3">France</option>
+              <option value="4">Germany</option>
             </select>
           </div>
 
@@ -133,7 +141,7 @@ if(isset($_POST) && !empty($_POST) && isset($_FILES) && !empty($_FILES)) {
             <div class="form-radio col-md-6">
               <label class="form-radio-label" for="thumbnail-0">Select as the studio thumbnail image :</label>
               <br>
-              <input name="thumbnail-0" type="radio" value="true" id="thumbnail-0">
+              <input name="thumbnail-0" type="radio" value="1" id="thumbnail-0">
             </div>
 
           </div><!-- .row -->
