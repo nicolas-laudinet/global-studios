@@ -51,12 +51,20 @@ function setDeleteButton(workForm) {
 }
 
 
+/**
+  * Met à jour l'input caché #worksCount qui enregistre le nombre de travaux envoyés
+  */
 function updateWorksCount() {
   let worksLength = $('.work').length;
   $('#worksCount').val(worksLength);
 }
 
-
+/**
+  * Défini les champs "name" d'un formulaire de travail, ainsi que leurs id et les champs for de leurs labels
+  * Ajoute la position du formulaire de travail à la fin des champs
+  * Ex: name="title-1" pour le champ title du deuxième formulaire de travail
+  *
+  */
 function setWorkFieldsNames() {
   $('.work').each(function(index, element) {
     let inputs = element.querySelectorAll('input');

@@ -7,23 +7,23 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
 
   $studio = fetchData($db, 'studios', $_GET['id']);
   $works = fetchData($db, 'works', $_GET['id'], 'studio_id');
+  $country = fetchData($db, 'country', $studio[0]['country_id']);
 
-  $sortedStudio = sortStudioData($studio, $works);
-  $JSON = json_encode($sortedStudio, JSON_PRETTY_PRINT);
+  $sortedData = sortStudioData($studio, $works, $country);
 
 } else {
 
   $studios = fetchData($db, 'studios');
   $works = fetchData($db, 'works');
+  $countries = fetchData($db, 'country');
 
-  $sortedStudios = sortStudioData($studios, $works);
-  $JSON = json_encode($sortedStudios, JSON_PRETTY_PRINT);
-
+  $sortedData = sortStudioData($studios, $works, $countries);
 
 }
 
+$JSON = json_encode($sortedData, JSON_PRETTY_PRINT);
 
-echo($JSON);
+print_r($JSON);
 
 
 /**
@@ -63,17 +63,24 @@ function fetchData($db, $table, $id = null, $idKey = 'id') {
   * @param {Array} $arrays - Un tableau contenant le resultat d'une requête joignant les tables "studios" et "works"
   * @return {Object} $studio - Un tableau contenant les informations d'un studio triées
   */
-function sortStudioData($studios, $works) {
+function sortStudioData($studios, $works, $countries) {
   $studiosArray = [];
 
   foreach($studios as $studio) {
     $worksArray = [];
+
+    foreach($countries as $country) {
+      if($country['id'] == $studio['country_id']) {
+        $studio['country'] = $country['name'];
+      }
+    }
 
     foreach($works as $work) {
       if($studio['id'] === $work['studio_id']) {
         $worksArray[] = $work;
       }
     }
+
     $studio['works'] = $worksArray;
     $studiosArray[] = $studio;
   }
