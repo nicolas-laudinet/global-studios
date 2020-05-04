@@ -1,5 +1,5 @@
 //couleurs
-$primary: tomato;
+$primary: #FF9494;
 $secondary: black;
 $tertiary: white;
 
@@ -23,12 +23,10 @@ $mobile-text-size: 1em;
   font-weight: 1 999;
 }
 
-
-/////////////////////////////////$phone breakpoint styles
-
+@import "mediaqueries.scss";
 
 
-
+// global styles
 body {
   margin: 0;
   margin-top: $header-height;
@@ -37,6 +35,7 @@ body {
 
   img {
     max-width: 100%;
+    object-fit: cover;
   }
 
   h1 {
@@ -60,11 +59,6 @@ body {
   a {
     font-variation-settings: 'wght' 100, 'slnt' -5, 'CASL' 0;
     transition: all .5s ease;
-  }
-
-  a:hover {
-    color: darken($primary, 10);
-    font-variation-settings: 'wght' 800, 'slnt' -5, 'CASL' 0;
   }
 
   .featured-wrapper {
@@ -127,10 +121,15 @@ header {
     text-decoration: none;
   }
 
+  a:hover, a.router-link-active {
+    color: darken($primary, 10);
+    font-variation-settings: 'wght' 800, 'slnt' -5, 'CASL' 0;
+  }
+
   .header-stroke {
     width: auto;
     height: 1px;
-    background-color: tomato;
+    background-color: $primary;
     margin-right: 20px;
   }
 
@@ -143,13 +142,27 @@ header {
   }
 
   #current-studio {
-    visibility: hidden;
+    opacity: 1;
     font-variation-settings: 'wght' 800, 'slnt' 0, 'MONO' 1;
     display: block;
     height: 30px;
     text-align: right;
     margin-right: 20px;
     margin-top: 5px;
+    position: relative;
+  }
+
+  #studio-infos {
+    margin: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
   }
 
   @media screen and (min-width: #{$tablet}) {
@@ -163,10 +176,6 @@ header {
       justify-content: center;
     }
   }
-}
-
-#home {
-
 }
 
 .welcome-phrase {
@@ -278,65 +287,232 @@ header {
   margin-bottom: 50px;
 }
 
-.item-wrapper {
-  width: 300px;
-  margin: 0 auto;
+#studios-list {
+  .stroke {
+    width: 100%;
+    height: 2px;
+    background-color: $primary;
+  }
 
-  @media screen and (min-width: #{$phone-big}) {
-    width: calc(#{$phone-big} - 50px);
+  .studio {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+
+  a {
+    color: $primary;
+    text-decoration: none;
+
+    &:hover {
+      font-variation-settings: 'wght' 800, 'slnt' -14, 'CASL' 1;
+    }
+  }
+
+  .pagination {
+    text-align: center;
+    margin-bottom: 50px;
+
+    i {
+      margin-left: 10px;
+      margin-right: 10px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .active-index {
+    text-decoration: underline;
+  }
+
+  .country-select {
+    margin: 25px auto;
+    font-size: 1em;
+    font-family: 'Recursive';
+    font-variation-settings: 'wght' 600, 'slnt' -14, 'CASL' 1;
+    border-color: $primary;
+    background-color: transparent;
+    color: $primary;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   @media screen and (min-width: #{$tablet}) {
-    width: calc(#{tablet} - 50px);
-  }
-
-  @media screen and (min-width: #{$tablet-big}) {
-    width: calc(#{$tablet-big} - 50px);
+    .studio {
+      width: 50%;
+    }
   }
 
   @media screen and (min-width: #{$laptop}) {
-    width: calc(#{$laptop} - 50px);
-
-    h2 {
-      font-size: 3em;
+    .studio {
+      width: 33.3%;
     }
+  }
+}
 
-    h3#studio-name {
-      font-size: 2em;
-    }
+#studio-single {
+  .nav-container {
 
-    .featured-container {
+    a {
       display: flex;
-      padding-bottom: 50px;
+      text-decoration: none;
+      color: $primary;
+    }
 
-      p {
-        margin: 0 20px;
-        font-size: 1.2em;
+    &:hover {
+      cursor: pointer;
+    }
+
+    .arrow {
+      border: solid $primary;
+      height: 5px;
+      width: 5px;
+      border-width: 0 1px 1px 0;
+      display: inline-block;
+      padding: 10px;
+    }
+
+    .left-nav-container, .right-nav-container {
+      position: fixed;
+      top: 50%;
+      display: flex;
+    }
+
+    .left-nav-container {
+      left: 10px;
+      transition: all .5s ease;
+
+
+      &:hover {
+        .nav-studio-name {
+          display: block;
+          opacity: 1;
+        }
       }
     }
 
-    .featured-studio-img {
-      width: 50%;
+    .right-nav-container {
+      right: 10px;
+
+      &:hover {
+        .nav-studio-name {
+          display: block;
+          opacity: 1;
+        }
+      }
     }
 
-    .studio-img-text {
-      display: flex;
+    .nav-studio-name {
+      display: none;
+      opacity: 0;
+      transition: all .5s ease;
+      border-radius: 100%;
+      border: solid $primary 1px;
+      padding: 10px;
+      background-color: $tertiary;
     }
 
-    .work-img {
-      width: 50%;
+    .prev-studio-name {
+      margin-left: 10px;
+      transform: rotate(20deg);
+    }
+
+    .next-studio-name {
+      margin-right: 10px;
+      transform: rotate(-20deg);
+    }
+
+    .left-arrow {
+      transform: rotate(135deg);
+      -webkit-transform: rotate(135deg);
+    }
+
+    .right-arrow {
+      transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
     }
   }
 
-  @media screen and (min-width: #{$laptop-big}) {
-    width: calc(#{$laptop-big} - 50px);
+  .stroke {
+    width: 100%;
+    height: 2px;
+    background-color: $primary;
+  }
 
-    h2 {
-      font-size: 4em;
-    }
+  .studio-country {
+    color: $secondary;
+  }
 
-    h3#studio-name {
-      font-size: 3em;
+  .featured-descr, .work-descr {
+    color: $secondary;
+  }
+
+  .studio-works {
+    margin-bottom: 50px;
+  }
+
+}
+
+#contact {
+  .message {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(10deg);
+    background-color: white;
+    border: 1px solid $primary;
+    border-radius: 100%;
+    padding: 30px;
+    transition: opacity 1s ease;
+  }
+
+  .message-success {
+    display: block;
+    opacity: 1;
+  }
+
+  .message-error {
+    display: block;
+    opacity: 1;
+    color: red;
+  }
+
+  .message-transition {
+    opacity: 0;
+  }
+
+  input[type=text], input[type="mail"], textarea {
+    border-radius: 10px;
+    border: 1px solid $primary;
+    padding: 5px;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  input[type=submit] {
+    background-color: $primary;
+    border: none;
+    color: $tertiary;
+    border-radius: 5px;
+    font-size: 1em;
+    padding: 10px;
+    font-family: 'Recursive';
+    font-weight: bold;
+    transition: all .5s ease;
+    width: 100px;
+
+    &:hover {
+      font-variation-settings: 'slnt' -14;
+      cursor: pointer;
     }
   }
 }

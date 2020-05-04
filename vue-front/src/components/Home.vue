@@ -19,7 +19,7 @@
       <h2 class="last-uploads">Last Uploads</h2>
       <div class="stroke"></div>
 
-      <div class="studio-container" v-for="(studio, idx) in studios" :key="idx">
+      <div class="studio-container" v-for="(studio, idx) in getLastStudios(3)" :key="idx">
 
         <div class="studio">
 
@@ -37,7 +37,11 @@
                   >
                 </div>
               </div>
-              <p class="studio-description"> {{ studio.description.slice(0, 300) }} [...] <i class="read-more">Read more...</i></p>
+              <p class="studio-description"> {{ studio.description.slice(0, 300) }} [...]
+                <router-link :to="{ name: 'StudioSingle', params: {id: studio.id} }">
+                  <i class="read-more">Read more...</i>
+                </router-link>
+              </p>
             </div>
 
 
@@ -46,7 +50,9 @@
         <div class="studio-separator"></div>
       </div>
     </div>
-    <h3 class="discover-more item-wrapper">Discover more studios from around the globe</h3>
+    <router-link to="/list">
+      <h3 class="discover-more item-wrapper">Discover more studios from around the globe</h3>
+    </router-link>
 
   </div>
 </template>
@@ -68,13 +74,13 @@ export default {
   },
   methods: {
     fetchStudios() {
-      fetch('http://global-studios.test/api/studios.php', {mode: 'cors'})
+      fetch(`http://${process.env.VUE_APP_ROOT}/api/studios.php`, {mode: 'cors'})
       .then((response) => {
         response.json().then((studios) => {
           //tri les studios par date d'ajout au site
           studios.sort((a, b) => {
-            if(a.added_at > b.added_at) return 1;
-            if(a.added_at < b.added_at) return -1;
+            if(a.added_at > b.added_at) return -1;
+            if(a.added_at < b.added_at) return 1;
             if(a.added_at === b.added_at) return 0;
           });
 
@@ -89,6 +95,15 @@ export default {
     isWorkFeatured(work) {
       if(work.featured == 1) return work;
       else return false;
+    },
+    getLastStudios(number) {
+      let studios = [];
+      if(this.fetched) {
+        for(let i = 0; i < number; i++) {
+          studios.push(this.studios[i]);
+        }
+      }
+      return studios;
     }
   },
   created() {

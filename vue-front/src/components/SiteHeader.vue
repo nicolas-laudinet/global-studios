@@ -20,7 +20,9 @@
       <div class="header-stroke"></div>
 
       <div id="current-studio">
-        <h3 id="studio-infos">studio</h3>
+        <transition name="fade">
+          <h3 v-if="studioName" id="studio-infos" :key="studioName">{{ studioName }}</h3>
+        </transition>
       </div>
     </div>
 
@@ -34,6 +36,9 @@
 <script>
 export default {
   name: 'SiteHeader',
+  props: {
+    studioName: String
+  },
   data () {
     return {
       msg: '! Header !',
@@ -55,3 +60,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+
+</style>

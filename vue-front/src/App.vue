@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <SiteHeader></SiteHeader>
-    <router-view/>
+    <SiteHeader :studioName="studioName"></SiteHeader>
+    <router-view v-on:studioDisplayed="updateHeader"/>
   </div>
 </template>
 
@@ -12,6 +12,23 @@ export default {
   name: 'App',
   components: {
     SiteHeader
+  },
+  data() {
+    return {
+      studioName: ''
+    }
+  },
+  methods: {
+    updateHeader(studioName) {
+      this.studioName = studioName;
+    }
+  },
+  watch: {
+    $route(to) {
+      if(to.name != 'StudioSingle') {
+        this.studioName = '';
+      }
+    }
   }
 }
 </script>

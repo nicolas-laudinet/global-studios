@@ -120,4 +120,29 @@ function sortWorksData ($data) {
   return $works;
 }
 
+/**
+  * Enregistre le message d'un utilisateur venant de la page Contact
+  *
+  * @param {object} $request - La variable superglobale $_POST contenant les données du formulaire
+  *
+  *
+  */
+
+function recordMessage($request, $db) {
+  $statement = $db->prepare(
+    "INSERT INTO messages (author, mail, body)
+    VALUES (:author, :mail, :body)"
+  );
+
+  $statement->bindValue(':author', $request['name']);
+  $statement->bindValue(':mail', $request['mail']);
+  $statement->bindValue(':body', $request['body']);
+
+  if($statement->execute()) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 ?>

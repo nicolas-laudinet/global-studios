@@ -92,6 +92,7 @@ if(isset($_POST) && !empty($_POST) && isset($_FILES) && !empty($_FILES)) {
               <option value="2">Spain</option>
               <option value="3">France</option>
               <option value="4">Germany</option>
+              <option value="9">Japan</option>
             </select>
           </div>
 

@@ -20,7 +20,11 @@
       >
 
       <div class="featured-text">
-        <p>{{ featuredStudio.description.slice(0, 300) }} [...] <i class="read-more">Read more</i></p>
+        <p>{{ featuredStudio.description.slice(0, 300) }} [...]
+          <router-link :to="{ name: 'StudioSingle', params: {id: featuredStudio.id} }">
+            <i class="read-more">Read more</i>
+          </router-link>
+        </p>
       </div>
 
     </div>
