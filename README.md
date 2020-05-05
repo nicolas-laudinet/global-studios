@@ -2,10 +2,14 @@
 
 ## Démarrage:
 
+* Renseigner les informations de connexion à la base de donnée MySQL dans le fichier /db_connection.php
+
 * Renseigner le nom de de l'hôte dans le fichier /vue-front/.env (ex: VUE_APP_HOST=localhost)
+
+* Se placer dans le répertoire /vue-front et lancer la commande `npm i` pour installer les dépendances de l'application
 
 * Générer le build de l'application en se plaçant dans le répertoire /vue-front et lancer la commande `npm run dev`
 
-* Placer le contenu du répertoire obtenu (/dist) à la raçine du repertoire du serveur local
+* Placer le contenu du répertoire obtenu (/dist) à la racine du répertoire du serveur local
 
 * Normalement ça marche 🙏
