@@ -1,11 +1,11 @@
 <?php
 
-$host = 'localhost';
+$dbHost = 'localhost';
 $dbName = 'globalstudios';
-$user = 'root';
-$passwd = '';
+$dbUser = 'root';
+$dbPasswd = '';
 
-$db = new PDO('mysql:host=' . $host . ';dbname=' . $dbName, $user, $passwd);
+$db = new PDO('mysql:host=' . $dbHost . ';dbname=' . $dbName, $dbUser, $dbPasswd);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
  ?>
