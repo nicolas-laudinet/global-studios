@@ -3,7 +3,7 @@
 //contient la variable $db
 include('../db_connection.php');
 
-//contient sortWorksData() et $addStudioToDb
+//contient sortWorksData(), recordStudio() et sortWorksData()
 include('db_functions.php');
 
 
@@ -25,24 +25,15 @@ if(isset($_POST) && !empty($_POST) && isset($_FILES) && !empty($_FILES)) {
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Add a Studio</title>
-    <link rel="stylesheet" href="../lib/bootstrap.min.css">
-    <link rel="stylesheet" href="backoffice.css">
-    <meta name=viewport content="width=device-width, initial-scale=1">
-    <script defer type="text/javascript" src="../lib/jquery-3.4.1.min.js"></script>
-    <script defer type="text/javascript" src="handle_work_forms.js"></script>
-    <!-- <script defer type="text/javascript" src="send_form_data.js"></script> -->
-  </head>
+  <?php $pageTitle = 'Add Studio' ?>
+  <?php include('bo_head.php') ?>
 
   <body>
 
     <div class="container">
 
-      <header>
-        <h1>HEADER</h1>
-      </header>
+      <?php include('./bo_menu.php'); ?>
+
 
       <!-- INFOS ABOUT THE STUDIO ------------------------------------------------------>
       <hr>

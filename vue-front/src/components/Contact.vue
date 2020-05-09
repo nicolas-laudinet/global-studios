@@ -22,7 +22,7 @@
       <div class="input-container">
         <label for="body">Your message</label>
         <br>
-        <textarea name="body" rows="8" cols="80"></textarea>
+        <textarea id="body" name="body" rows="8" cols="80"></textarea>
       </div>
 
 
@@ -41,10 +41,14 @@ export default {
 
       var form = new FormData(document.querySelector('form'));
       let params = { method: 'POST', mode: 'cors', body: form };
-      fetch('http://global-studios.test/api/messages.php', params)
+      fetch(`${process.env.VUE_APP_ROOT}/api/messages.php`, params)
       .then((response) => {
         response.json().then((json) => {
           if(json.success) {
+            document.querySelector('#name').value = '';
+            document.querySelector('#mail').value = '';
+            document.querySelector('#body').value = '';
+
             message.innerHTML = json.message;
             message.classList.add('message-success');
 

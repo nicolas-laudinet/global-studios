@@ -4,7 +4,7 @@
 
 * Renseigner les informations de connexion à la base de donnée MySQL dans le fichier /db_connection.php
 
-* Renseigner le nom de de l'hôte dans le fichier /vue-front/.env (ex: VUE_APP_HOST=localhost)
+* Renseigner le nom de de l'hôte dans le fichier /vue-front/.env (ex: VUE_APP_HOST=http://localhost)
 
 * Se placer dans le répertoire /vue-front et lancer la commande `npm i` pour installer les dépendances de l'application
 

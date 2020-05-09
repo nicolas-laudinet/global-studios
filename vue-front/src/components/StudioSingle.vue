@@ -3,6 +3,7 @@
     <transition name="fade" :key="studio.id">
       <div class="item-wrapper">
         <div v-if="studioFetched" id="studio">
+
           <div class="nav-container">
             <div v-if="isPrevStudio()" class="left-nav-container">
               <router-link :to="{ name: 'StudioSingle', params: {id: prevStudio.id} }">
@@ -25,7 +26,7 @@
           <p class="studio-description">{{ studio.description }}</p>
 
           <img
-            :src="'http://global-studios.test/images/' + studioFeaturedWork.img_path"
+            :src="rootURL + '/images/' + studioFeaturedWork.img_path"
             :alt="studioFeaturedWork.alt_text"
           >
 
@@ -37,7 +38,7 @@
             <div class="work-container" v-for="work in studio.works" v-bind:key="work.id">
               <img
                 class="studio-work-img single-studio"
-                :src="'http://global-studios.test/images/' + work.img_path"
+                :src="rootURL + '/images/' + work.img_path"
                 :alt="work.alt_text"
               >
 
@@ -63,11 +64,9 @@ export default {
       studioFeaturedWork: [],
       allStudios: [],
       prevStudio: {},
-      nextStudio: {}
+      nextStudio: {},
+      rootURL: process.env.VUE_APP_ROOT
     }
-  },
-  computed: {
-
   },
   methods: {
     isPrevStudio() {
@@ -104,8 +103,7 @@ export default {
       })
     },
     fetchStudio() {
-      // fetch(`http://${process.env.VUE_APP_ROOT}:${process.env.VUE_APP_PORT}/api/studios.php?id=${this.$route.params.id}`, {mode: 'cors'})
-        fetch(`http://${process.env.VUE_APP_ROOT}/api/studios.php?id=${this.$route.params.id}`, {mode: 'cors'})
+      fetch(`${process.env.VUE_APP_ROOT}/api/studios.php?id=${this.$route.params.id}`, {mode: 'cors'})
       .then((response) => {
         response.json().then((studio) => {
           this.studio = studio[0];
@@ -117,7 +115,7 @@ export default {
       });
     },
     fetchAllStudios() {
-      fetch(`http://${process.env.VUE_APP_ROOT}/api/studios.php`, {mode: 'cors'})
+      fetch(`${process.env.VUE_APP_ROOT}/api/studios.php`, {mode: 'cors'})
       .then((response) => {
         response.json().then((studios) => {
           //tri les studios par date d'ajout au site
@@ -150,6 +148,7 @@ export default {
   watch: {
     $route() {
       this.fetchStudio();
+      document.querySelector('html').scrollTop = 0;
     }
   }
 }

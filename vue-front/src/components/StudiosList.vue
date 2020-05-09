@@ -15,7 +15,7 @@
           <router-link :to="{ name: 'StudioSingle', params: {id: studio.id} }">
             <div class="img-item-list" v-for="featuredWork in getFeaturedWork(studio)" :key="featuredWork.id">
               <img
-                :src="'http://global-studios.test/images/' + featuredWork.img_path"
+                :src="rootURL + '/images/' + featuredWork.img_path"
                 :alt="featuredWork.alt_text"
                 :title="featuredWork.title"
               >
@@ -47,7 +47,8 @@ export default {
       countrySelected: 0,
       studiosPerPage: 6,
       pageSelected: 0,
-      studiosByCountry: []
+      studiosByCountry: [],
+      rootURL: process.env.VUE_APP_ROOT
     }
   },
   computed: {
@@ -100,7 +101,7 @@ export default {
       })
     },
     fetchStudios() {
-      fetch(`http://${process.env.VUE_APP_ROOT}/api/studios.php`, {mode: 'cors'})
+      fetch(`${process.env.VUE_APP_ROOT}/api/studios.php`, {mode: 'cors'})
       .then((response) => {
         response.json().then((studios) => {
           //tri les studios par date d'ajout au site
@@ -116,7 +117,7 @@ export default {
       });
     },
     fetchCountries() {
-      fetch(`http://${process.env.VUE_APP_ROOT}/api/countries.php`, {mode: 'cors'})
+      fetch(`${process.env.VUE_APP_ROOT}/api/countries.php`, {mode: 'cors'})
       .then((response) => {
         response.json().then((countries) => {
           this.countries = countries;

@@ -14,7 +14,7 @@
 
       <img
         class="featured-studio-img"
-        :src=" 'http://global-studios.test/images/' + featuredWork.img_path"
+        :src="rootURL + '/images/' + featuredWork.img_path"
         :alt="featuredWork.alt_text"
         :title="featuredWork.title"
       >
@@ -37,7 +37,8 @@ export default {
   props: ['featuredStudio'],
   data () {
     return {
-      isHovering: false
+      isHovering: false,
+      rootURL: process.env.VUE_APP_ROOT
     }
   },
   computed: {

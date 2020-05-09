@@ -1,3 +1,5 @@
+updateWorksCount()
+
 $(function () {
   $('#addWork').click(addWorkForm);
 });

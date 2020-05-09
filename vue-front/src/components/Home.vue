@@ -19,7 +19,7 @@
       <h2 class="last-uploads">Last Uploads</h2>
       <div class="stroke"></div>
 
-      <div class="studio-container" v-for="(studio, idx) in getLastStudios(3)" :key="idx">
+      <div class="studio-container" v-for="(studio, idx) in getLastStudios(2)" :key="idx">
 
         <div class="studio">
 
@@ -30,7 +30,7 @@
               <div v-for="(work, idx) in studio.works" :key="idx">
                 <div v-if="work.featured == 1" class="work">
                   <img
-                    :src=" 'http://global-studios.test/images/' + work.img_path"
+                    :src="rootURL + '/images/' + work.img_path"
                     :alt="work.alt_text"
                     :title="work.title"
                     class="work-img"
@@ -69,12 +69,13 @@ export default {
     return {
       studios: null,
       featuredStudio: null,
-      fetched: false
+      fetched: false,
+      rootURL: process.env.VUE_APP_ROOT
     }
   },
   methods: {
     fetchStudios() {
-      fetch(`http://${process.env.VUE_APP_ROOT}/api/studios.php`, {mode: 'cors'})
+      fetch(this.rootURL + '/api/studios.php', {mode: 'cors'})
       .then((response) => {
         response.json().then((studios) => {
           //tri les studios par date d'ajout au site

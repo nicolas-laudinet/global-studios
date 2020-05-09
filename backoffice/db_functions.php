@@ -32,7 +32,7 @@ function recordStudio($data, $db) {
 
 /**
   * Publie un travail d'un studio
-  * en enregistrant les l'images et les infos correspondantes
+  * en enregistrant les images et les infos correspondantes
   *
   * @param {Array} $work - Un tableau contenant toutes les information sur le travail à publier
   * @param {Integer} $studioId - L'id du studio correspondant au travail à publier
@@ -55,7 +55,6 @@ function recordWorkImage($image) {
   $targetDir = $_SERVER['DOCUMENT_ROOT'] . '/images';
   $targetFile = preg_replace("/[^a-z0-9\_\-\.]/i", '', basename($image["name"]));
   $targetPath = $targetDir . '/' . $targetFile;
-
   resize_crop_image(1500, 1000, $image['tmp_name'], $targetPath);
 
   return $targetFile;
@@ -115,6 +114,10 @@ function sortWorksData ($data) {
         }
       }
     }
+
+    if($data['thumbnail'] === $works[$i]['id']) {
+      $works[$i]['featured'] = 1;
+    }
   }
 
   return $works;
@@ -124,8 +127,8 @@ function sortWorksData ($data) {
   * Enregistre le message d'un utilisateur venant de la page Contact
   *
   * @param {object} $request - La variable superglobale $_POST contenant les données du formulaire
-  *
-  *
+  * @param {PDO Object} $db - Un objet PDO connecté à la base de données
+  * @return {boolean} - true si la requête s'execute, sinon false
   */
 
 function recordMessage($request, $db) {
@@ -145,4 +148,64 @@ function recordMessage($request, $db) {
   }
 }
 
+function updateStudio($id, $data, $db) {
+  $statement = $db->prepare(
+    'UPDATE studios SET country_id=:country, name=:name, members=:members, foundation=:foundation, description=:description, site=:website, mail=:email
+    WHERE id=:id'
+  );
+
+  $studioValues = array(
+    'country' => $data['country'],
+    'name' => $data['name'],
+    'members' => $data['members'],
+    'foundation' => $data['foundation'],
+    'description' => $data['description'],
+    'website' => $data['website'],
+    'email' => $data['email'],
+    'id' => $id
+  );
+
+ $statement->execute($studioValues);
+
+ return $id;
+}
+
+
+function updateWork($thumbnailId, $work, $studioId, $workId, $db) {
+  $imgPath = '';
+  //enregistrement de l'image et récuperation de son nom tel qu'enregistré dans le répertoire /images
+  if ($work['image']['size'] > 0) {
+
+    $imgPath = recordWorkImage($work['image']);
+    $statement = $db->prepare("UPDATE works SET img_path = :img_path WHERE id = :id");
+    $values = array(
+      'img_path' => $imgPath,
+      'id' => $workId
+    );
+    $statement->execute($values);
+  }
+  //enregistrement des informations sur le travail
+  updateWorkDatas($thumbnailId, $work, $studioId, $workId, $db);
+}
+
+
+function updateWorkDatas($thumbnailId, $work, $studioId, $workID, $db) {
+  $statement = $db->prepare(
+    "UPDATE works SET studio_id = :studio_id, alt_text = :alt_text, title = :title, description = :description, featured = :featured WHERE id = :work_id"
+  );
+
+  if($thumbnailId === $work['id']) $work['thumbnail'] = 1;
+  else $work['thumbnail'] = 0;
+
+  $values = array(
+    'studio_id' => $studioId,
+    'alt_text' => $work['altText'],
+    'title' => $work['workName'],
+    'description' => $work['imageDescr'],
+    'featured' => (int)$work['thumbnail'],
+    'work_id' => (int)$workID
+  );
+
+  $statement->execute($values);
+}
 ?>
