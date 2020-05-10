@@ -23,6 +23,12 @@
           <h2>{{ studio.name }}</h2>
           <div class="stroke"></div>
           <h3 class="studio-country">{{ studio.country }}</h3>
+
+          <div>Website : <a class="studio-info" :href="studio.site" target="_blank">{{ studio.site }}</a></div>
+          <div>Email : <a class="studio-info" :href="'mailto:' + studio.mail">{{ studio.mail }}</a></div>
+          <div>Members : <span class="studio-info">{{ studio.members }}</span></div>
+          <div>Foundation : <span class="studio-info">{{ studio.foundation }}</span></div>
+
           <p class="studio-description">{{ studio.description }}</p>
 
           <img
@@ -106,13 +112,15 @@ export default {
       fetch(`${process.env.VUE_APP_ROOT}/api/studios.php?id=${this.$route.params.id}`, {mode: 'cors'})
       .then((response) => {
         response.json().then((studio) => {
+
           this.studio = studio[0];
           this.studioFetched = true;
 
           this.sortStudioWorks();
           this.emitStudioData(this.studio.name);
-        });
-      });
+
+        })
+      })
     },
     fetchAllStudios() {
       fetch(`${process.env.VUE_APP_ROOT}/api/studios.php`, {mode: 'cors'})

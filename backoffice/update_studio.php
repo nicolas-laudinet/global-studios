@@ -58,7 +58,7 @@ $countries = json_decode($contries_json);
 
  <!DOCTYPE html>
  <html>
-   <?php $pageTitle = 'Add Studio' ?>
+   <?php $pageTitle = 'Update Studio' ?>
    <?php include('bo_head.php') ?>
 
    <body>
@@ -203,7 +203,7 @@ $countries = json_decode($contries_json);
                  </div>
                </div><!-- .row -->
 
-               <input type="hidden" name="id-<?= $index ?>" value="<?= $work->id ?>">
+               <input class="work-id" type="hidden" name="id-<?= $index ?>" value="<?= $work->id ?>">
 
              </div><!-- .work -->
 
@@ -228,9 +228,12 @@ $countries = json_decode($contries_json);
          </div>
 
 
-    <?php } ?> <!-- if studio exists -->
+    <?php } else { echo 'Select a studio'; } ?> <!-- if studio exists -->
+
 
      </div><!-- .container -->
 
    </body>
+
+   <script src="delete_work.js"></script>
  </html>

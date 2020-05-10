@@ -1,6 +1,32 @@
-updateWorksCount()
-
 $(function () {
+  let worksCount = updateWorksCount();
+
+  if(worksCount > 1) {
+    $('.work').each(function(index) {
+      setDeleteButton($(this));
+    })
+  }
+
+  if($('.work-id').first().val()) {
+    $('.work').each(function (index) {
+      let id = $(this).find('.work-id').val();
+      $(this).find('.deleteWorkBtn').click(function() {
+        fetch('http://global-studios.test/api/delete_work.php?id=' + id, {
+          mode: 'cors',
+          method: 'GET'
+        }).then((response) => {
+          console.log(response);
+          response.json((json) => {
+            console.log(json);
+            console.log('a');
+          });
+        });
+      })
+    })
+  } else {
+    console.log('no val')
+  }
+
   $('#addWork').click(addWorkForm);
 });
 
@@ -11,6 +37,11 @@ $(function () {
 function addWorkForm () {
   let workForm = getNewWorkForm();
   $('.work').last().after(workForm);
+
+  if($('.work').length > 1) {
+    setDeleteButton($('.work').first());
+  }
+
   setWorkFieldsNames()
   updateWorksCount()
 }
@@ -47,8 +78,14 @@ function setDeleteButton(workForm) {
     deleteWork.css({display: 'block'});
     deleteWork.click(function() {
       workForm.remove();
+
       setWorkFieldsNames()
       updateWorksCount()
+
+      if($('.work').length <= 1) {
+        hideDeleteButton($('.work').first());
+      }
+
     });
 }
 
@@ -59,6 +96,7 @@ function setDeleteButton(workForm) {
 function updateWorksCount() {
   let worksLength = $('.work').length;
   $('#worksCount').val(worksLength);
+  return worksLength;
 }
 
 /**
@@ -86,4 +124,9 @@ function setWorkFieldsNames() {
     textarea.previousElementSibling.htmlFor = 'imageDescr-' + index;
 
   });
+}
+
+function hideDeleteButton(workForm) {
+  let btn = workForm.find('.deleteWorkBtn');
+  btn.css({display: 'none'});
 }
