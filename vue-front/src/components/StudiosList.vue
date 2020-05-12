@@ -81,7 +81,6 @@ export default {
   },
   methods: {
     initPage() {
-      console.log('there');
       this.pageSelected = 0;
     },
     setStudiosByCountry(studios) {
@@ -94,6 +93,7 @@ export default {
     },
     setPage(index) {
       this.pageSelected = index;
+      document.querySelector('html').scrollTop = 0;
     },
     getFeaturedWork(studio) {
     return  studio.works.filter((work) => {

@@ -93,7 +93,8 @@ header {
   left: 0;
   width: 100%;
   box-sizing: border-box;
-  z-index: 100;
+  z-index: 3;
+
 
   background-color: white;
   filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.1));
@@ -139,6 +140,9 @@ header {
 
   .menu-burger img {
     width: 50px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   #current-studio {
@@ -175,6 +179,60 @@ header {
       flex-direction: column;
       justify-content: center;
     }
+  }
+}
+
+.menu-mobile {
+  height: calc(100vh - #{$header-height});
+  width: 100vw;
+  background-color: $tertiary;
+  position: fixed;
+  z-index: 2;
+  text-align: center;
+  font-size: 3em;
+  line-height: 2em;
+  color: $primary;
+
+  ul {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  a {
+    text-decoration: none;
+    font-variation-settings: 'wght' 500, 'slnt' -3, 'CASL' 0;
+
+    &:hover {
+      font-variation-settings: 'wght' 1000, 'slnt' -7, 'CASL' 0;
+    }
+
+    &:visited {
+      color: $primary;
+    }
+  }
+
+  li {
+    list-style: none;
+  }
+
+}
+
+.menu-enter-active, .menu-leave-active {
+  transition: transform .5s;
+}
+.menu-enter, .menu-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateY(-100%);
+}
+
+.menu-active {
+  transform: translateY(0);
+}
+
+@media screen and (min-width: #{$tablet}) {
+  .menu-mobile {
+    display: none;
   }
 }
 
@@ -359,7 +417,7 @@ header {
 }
 
 #studio-single {
-  
+
   li {
     color: $primary;
   }
@@ -505,6 +563,7 @@ header {
     padding: 5px;
     font-style: italic;
     margin-bottom: 20px;
+    max-width: 100%;
   }
 
   input[type=submit] {

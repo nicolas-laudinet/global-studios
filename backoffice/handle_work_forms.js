@@ -11,7 +11,7 @@ $(function () {
     $('.work').each(function (index) {
       let id = $(this).find('.work-id').val();
       $(this).find('.deleteWorkBtn').click(function() {
-        fetch('http://global-studios.test/api/delete_work.php?id=' + id, {
+        fetch('http://' + window.location.hostname + '/api/delete_work.php?id=' + id, {
           mode: 'cors',
           method: 'GET'
         }).then((response) => {

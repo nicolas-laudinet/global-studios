@@ -1,6 +1,11 @@
 <?php
 $connectionState = '';
 
+if(isset($_GET['logout'])) {
+  session_start();
+  $_SESSION['connected'] = false;
+}
+
 if(!empty($_POST['username']) && !empty($_POST['password'])) {
   $connectionState = authenticate_user($_POST['username'], $_POST['password']);
   if($connectionState === 'CONNECTED') {
@@ -10,7 +15,9 @@ if(!empty($_POST['username']) && !empty($_POST['password'])) {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/backoffice/home.php');
   }
 } else {
-  $connectionState = 'NO_CREDITS';
+  if(!empty($_POST)) {
+    $connectionState = 'NO_CREDITS';
+  }
 }
 
 function authenticate_user($inputUsername, $inputPassword) {

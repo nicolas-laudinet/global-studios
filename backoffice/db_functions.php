@@ -114,10 +114,12 @@ function sortWorksData ($data) {
         }
       }
     }
-
-    if($data['thumbnail'] === $works[$i]['id']) {
-      $works[$i]['featured'] = 1;
+    if(isset($data['thumbnail']) && isset($works[$i]['id'])) {
+      if($data['thumbnail'] === $works[$i]['id']) {
+        $works[$i]['featured'] = 1;
+      }
     }
+
   }
 
   return $works;

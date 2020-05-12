@@ -80,8 +80,8 @@ export default {
         response.json().then((studios) => {
           //tri les studios par date d'ajout au site
           studios.sort((a, b) => {
-            if(a.added_at > b.added_at) return -1;
-            if(a.added_at < b.added_at) return 1;
+            if(a.added_at > b.added_at) return 1;
+            if(a.added_at < b.added_at) return -1;
             if(a.added_at === b.added_at) return 0;
           });
 
